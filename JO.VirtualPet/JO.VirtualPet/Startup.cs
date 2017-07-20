@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using JO.Data;
 
 namespace JO.VirtualPet
 {
@@ -23,7 +24,7 @@ namespace JO.VirtualPet
             services.AddLogging();
 
             // Add our repository type
-            //services.AddSingleton<ITodoRepository, TodoRepository>();
+            services.AddTransient<VirtualPetContext>();
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
