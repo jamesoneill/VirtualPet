@@ -7,10 +7,6 @@ namespace JO.Data
 {
     public class VirtualPetContext : DbContext
     {
-        public VirtualPetContext(DbContextOptions<VirtualPetContext> options)
-            : base(options)
-        { }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=./VirtualPet.db");
