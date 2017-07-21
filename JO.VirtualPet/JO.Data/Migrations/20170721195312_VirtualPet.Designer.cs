@@ -10,7 +10,7 @@ using System;
 namespace JO.Data.Migrations
 {
     [DbContext(typeof(VirtualPetContext))]
-    [Migration("20170721184406_VirtualPet")]
+    [Migration("20170721195312_VirtualPet")]
     partial class VirtualPet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,7 +92,7 @@ namespace JO.Data.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Name");
+                    b.Property<string>("Name");
 
                     b.HasKey("UserId");
 

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using JO.Core;
+using System;
 using System.Collections.Generic;
 
 namespace JO.Data
 {
-    public class User
+    public class User : BaseEntity
     {
         public int UserId { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public ICollection<Animal> Animals { get; set; }
     }
 }

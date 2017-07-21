@@ -3,17 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using JO.Core;
+using JO.Data;
 
 namespace JO.VirtualPet.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly IRepository<User> _userRepository;
+
+        public ValuesController(IRepository<User> userRepository)
+        {
+            _userRepository = userRepository;
+        }
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var user = new User()
+            {
+                Name = "jamie",
+            };
+
+            _userRepository.Insert(user);
+
+
+            return Ok(_userRepository.Table.ToList());
         }
 
         // GET api/values/5

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using JO.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JO.Data
 {
-    public class AnimalStats
+    public class AnimalStats : BaseEntity
     {
         public int AnimalStatsId { get; set; }
         public float HungerIncreaseRate { get; set; }
