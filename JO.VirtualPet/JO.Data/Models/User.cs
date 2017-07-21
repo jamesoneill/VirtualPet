@@ -7,6 +7,6 @@ namespace JO.Data
     {
         public int UserId { get; set; }
         public int Name { get; set; }
-        public ICollection<UserOwnedAnimal> UserOwnedAnimals { get; set; }
+        public ICollection<Animal> Animals { get; set; }
     }
 }

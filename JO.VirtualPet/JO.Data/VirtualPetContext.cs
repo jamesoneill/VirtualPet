@@ -13,9 +13,8 @@ namespace JO.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserOwnedAnimal> UserOwnedAnimals { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalType> AnimalTypes { get; set; }
-        public DbSet<AnimalMetric> AnimalMetrics { get; set; }
+        public DbSet<AnimalStats> AnimalStats { get; set; }
     }
 }

@@ -29,18 +29,22 @@ namespace JO.Data.Migrations
 
                     b.Property<float>("CurrentHunger");
 
-                    b.Property<int?>("MetricAnimalMetricId");
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("UserId");
 
                     b.HasKey("AnimalId");
 
-                    b.HasIndex("MetricAnimalMetricId");
+                    b.HasIndex("AnimalTypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("JO.Data.AnimalMetric", b =>
+            modelBuilder.Entity("JO.Data.AnimalStats", b =>
                 {
-                    b.Property<int>("AnimalMetricId")
+                    b.Property<int>("AnimalStatsId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<float>("HappinessDecreaseRate");
@@ -51,9 +55,17 @@ namespace JO.Data.Migrations
 
                     b.Property<float>("HungerIncreaseRate");
 
-                    b.HasKey("AnimalMetricId");
+                    b.Property<float>("MaxHappiness");
 
-                    b.ToTable("AnimalMetrics");
+                    b.Property<float>("MaxHunger");
+
+                    b.Property<float>("MinHappiness");
+
+                    b.Property<float>("MinHunger");
+
+                    b.HasKey("AnimalStatsId");
+
+                    b.ToTable("AnimalStats");
                 });
 
             modelBuilder.Entity("JO.Data.AnimalType", b =>
@@ -63,11 +75,13 @@ namespace JO.Data.Migrations
 
                     b.Property<int>("MetricId");
 
+                    b.Property<int?>("StatsAnimalStatsId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("AnimalTypeId");
 
-                    b.HasIndex("MetricId");
+                    b.HasIndex("StatsAnimalStatsId");
 
                     b.ToTable("AnimalTypes");
                 });
@@ -84,51 +98,23 @@ namespace JO.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("JO.Data.UserOwnedAnimal", b =>
-                {
-                    b.Property<int>("UserOwnedAnimalId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnimalId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("UserId");
-
-                    b.HasKey("UserOwnedAnimalId");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserOwnedAnimals");
-                });
-
             modelBuilder.Entity("JO.Data.Animal", b =>
                 {
-                    b.HasOne("JO.Data.AnimalMetric", "Metric")
+                    b.HasOne("JO.Data.AnimalType", "Type")
                         .WithMany()
-                        .HasForeignKey("MetricAnimalMetricId");
+                        .HasForeignKey("AnimalTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("JO.Data.User")
+                        .WithMany("Animals")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("JO.Data.AnimalType", b =>
                 {
-                    b.HasOne("JO.Data.AnimalMetric", "Metric")
+                    b.HasOne("JO.Data.AnimalStats", "Stats")
                         .WithMany()
-                        .HasForeignKey("MetricId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("JO.Data.UserOwnedAnimal", b =>
-                {
-                    b.HasOne("JO.Data.Animal", "Animal")
-                        .WithMany()
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("JO.Data.User")
-                        .WithMany("UserOwnedAnimals")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("StatsAnimalStatsId");
                 });
 #pragma warning restore 612, 618
         }
