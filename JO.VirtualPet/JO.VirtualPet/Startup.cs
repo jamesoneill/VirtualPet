@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using JO.Data;
+using JO.Core;
 
 namespace JO.VirtualPet
 {
@@ -17,13 +19,16 @@ namespace JO.VirtualPet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<VirtualPetContext>();
             // Add framework services.
             services.AddMvc();
 
             services.AddLogging();
-
             // Add our repository type
-            //services.AddSingleton<ITodoRepository, TodoRepository>();
+            services.AddTransient<IRepository<Animal>,EfRepository<Animal>>();
+            services.AddTransient<IRepository<AnimalStats>, EfRepository<AnimalStats>>();
+            services.AddTransient<IRepository<AnimalType>, EfRepository<AnimalType>>();
+            services.AddTransient<IRepository<User>, EfRepository<User>>();
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>

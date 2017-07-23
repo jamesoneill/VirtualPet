@@ -6,4 +6,8 @@
     <RootNamespace>JO.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JO.Data\JO.Data.csproj" />
+  </ItemGroup>
+
 </Project>
