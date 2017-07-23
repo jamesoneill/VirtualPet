@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace JO.Core
+namespace JO.Data
 {
     public partial interface IRepository<T> where T : BaseEntity
     {

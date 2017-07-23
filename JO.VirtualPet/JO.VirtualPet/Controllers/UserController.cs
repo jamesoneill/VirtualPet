@@ -1,32 +1,29 @@
-﻿using System;
+﻿using JO.Core.Services;
+using JO.Data;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace JO.VirtualPet.Controllers
 {
-    [Route("api/[controller]")]
-    public class AnimalController : Controller
+    [Route("api/v1/[controller]")]
+    public class UserController : Controller
     {
+        private readonly IUserService _userService;
 
-
-        public AnimalController()
+        public UserController(IUserService userService)
         {
+            _userService = userService;
 
-        }
-        // GET api/values
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User Get(int id)
         {
-            return "value";
+            return _userService.GetById(id);
         }
 
         // POST api/values
@@ -39,6 +36,7 @@ namespace JO.VirtualPet.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE api/values/5
