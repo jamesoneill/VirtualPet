@@ -1,5 +1,4 @@
-﻿using JO.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +13,12 @@ namespace JO.Data
 
         public EfRepository(VirtualPetContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public virtual T GetById(object id)
         {
-            return this.Entities.Find(id);
+            return Entities.Find(id);
         }
 
         public virtual void Insert(T entity)
@@ -113,9 +112,19 @@ namespace JO.Data
         {
             get
             {
+                //hack for non existing lazy loading in EF core
+                _context.ExplicitLoading();
                 if (_entities == null)
                 {
-                    _entities = _context.Set<T>();
+                    Type contextType = typeof(VirtualPetContext);
+
+                    foreach (var property in contextType.GetProperties())
+                    {
+                        if(property.PropertyType == typeof(DbSet<T>))
+                        {
+                            _entities = (DbSet<T>) property.GetValue(_context);
+                        }
+                    }
                 }
 
                 return _entities;

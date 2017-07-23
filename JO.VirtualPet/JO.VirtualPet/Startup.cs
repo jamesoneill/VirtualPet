@@ -11,6 +11,8 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using JO.Data;
 using JO.Core;
+using JO.Core.Services.Interfaces;
+using JO.Core.Services;
 
 namespace JO.VirtualPet
 {
@@ -29,7 +31,9 @@ namespace JO.VirtualPet
             services.AddTransient<IRepository<AnimalStats>, EfRepository<AnimalStats>>();
             services.AddTransient<IRepository<AnimalType>, EfRepository<AnimalType>>();
             services.AddTransient<IRepository<User>, EfRepository<User>>();
-
+            services.AddTransient<IAnimalService, AnimalService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICalculateAnimalStateService, CalculateAnimalStateService>();
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {

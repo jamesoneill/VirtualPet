@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace JO.Data.Migrations
 {
     [DbContext(typeof(VirtualPetContext))]
-    [Migration("20170721195312_VirtualPet")]
+    [Migration("20170723174002_VirtualPet")]
     partial class VirtualPet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +27,11 @@ namespace JO.Data.Migrations
 
                     b.Property<int>("AnimalTypeId");
 
-                    b.Property<float>("CurrentHappiness");
+                    b.Property<double>("CurrentHappiness");
 
-                    b.Property<float>("CurrentHunger");
+                    b.Property<double>("CurrentHunger");
+
+                    b.Property<DateTime>("LastReCalculation");
 
                     b.Property<string>("Name");
 
@@ -48,21 +51,25 @@ namespace JO.Data.Migrations
                     b.Property<int>("AnimalStatsId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("HappinessDecreaseRate");
+                    b.Property<double>("HappinessDecreaseRate");
 
-                    b.Property<float>("HappinessIncreaseRate");
+                    b.Property<double>("HappinessIncreaseRate");
 
-                    b.Property<float>("HungerDecreaseRate");
+                    b.Property<TimeSpan>("HappinessTickRate");
 
-                    b.Property<float>("HungerIncreaseRate");
+                    b.Property<double>("HungerDecreaseRate");
 
-                    b.Property<float>("MaxHappiness");
+                    b.Property<double>("HungerIncreaseRate");
 
-                    b.Property<float>("MaxHunger");
+                    b.Property<TimeSpan>("HungerTickRate");
 
-                    b.Property<float>("MinHappiness");
+                    b.Property<double>("MaxHappiness");
 
-                    b.Property<float>("MinHunger");
+                    b.Property<double>("MaxHunger");
+
+                    b.Property<double>("MinHappiness");
+
+                    b.Property<double>("MinHunger");
 
                     b.HasKey("AnimalStatsId");
 
@@ -74,7 +81,7 @@ namespace JO.Data.Migrations
                     b.Property<int>("AnimalTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("MetricId");
+                    b.Property<int?>("AnimalStatId");
 
                     b.Property<int?>("StatsAnimalStatsId");
 

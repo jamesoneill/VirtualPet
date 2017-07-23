@@ -14,14 +14,16 @@ namespace JO.Data.Migrations
                 {
                     AnimalStatsId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    HappinessDecreaseRate = table.Column<float>(type: "REAL", nullable: false),
-                    HappinessIncreaseRate = table.Column<float>(type: "REAL", nullable: false),
-                    HungerDecreaseRate = table.Column<float>(type: "REAL", nullable: false),
-                    HungerIncreaseRate = table.Column<float>(type: "REAL", nullable: false),
-                    MaxHappiness = table.Column<float>(type: "REAL", nullable: false),
-                    MaxHunger = table.Column<float>(type: "REAL", nullable: false),
-                    MinHappiness = table.Column<float>(type: "REAL", nullable: false),
-                    MinHunger = table.Column<float>(type: "REAL", nullable: false)
+                    HappinessDecreaseRate = table.Column<double>(type: "REAL", nullable: false),
+                    HappinessIncreaseRate = table.Column<double>(type: "REAL", nullable: false),
+                    HappinessTickRate = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    HungerDecreaseRate = table.Column<double>(type: "REAL", nullable: false),
+                    HungerIncreaseRate = table.Column<double>(type: "REAL", nullable: false),
+                    HungerTickRate = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    MaxHappiness = table.Column<double>(type: "REAL", nullable: false),
+                    MaxHunger = table.Column<double>(type: "REAL", nullable: false),
+                    MinHappiness = table.Column<double>(type: "REAL", nullable: false),
+                    MinHunger = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +49,7 @@ namespace JO.Data.Migrations
                 {
                     AnimalTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MetricId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AnimalStatId = table.Column<int>(type: "INTEGER", nullable: true),
                     StatsAnimalStatsId = table.Column<int>(type: "INTEGER", nullable: true),
                     Type = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -69,8 +71,9 @@ namespace JO.Data.Migrations
                     AnimalId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     AnimalTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CurrentHappiness = table.Column<float>(type: "REAL", nullable: false),
-                    CurrentHunger = table.Column<float>(type: "REAL", nullable: false),
+                    CurrentHappiness = table.Column<double>(type: "REAL", nullable: false),
+                    CurrentHunger = table.Column<double>(type: "REAL", nullable: false),
+                    LastReCalculation = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
