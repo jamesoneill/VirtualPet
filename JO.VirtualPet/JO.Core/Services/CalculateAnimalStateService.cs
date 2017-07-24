@@ -15,6 +15,30 @@ namespace JO.Core.Services
             _animalRepository = animalRepository;
         }
 
+        public void FeedAnimal(Animal animal)
+        {
+            animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HungerDecreaseRate;
+
+            if (animal.CurrentHunger < animal.Type.Stats.MinHunger)
+            {
+                animal.CurrentHunger = animal.Type.Stats.MinHunger;
+            }
+
+            ReCalculateAnimalState(animal);
+        }
+
+        public void PetAnimal(Animal animal)
+        {
+            animal.CurrentHappiness = animal.CurrentHappiness + animal.Type.Stats.HappinessIncreaseRate;
+
+            if (animal.CurrentHappiness > animal.Type.Stats.MaxHappiness)
+            {
+                animal.CurrentHappiness = animal.Type.Stats.MaxHappiness;
+            }
+
+            ReCalculateAnimalState(animal);
+        }
+
         public Animal ReCalculateAnimalState(Animal animal)
         {
             var currentDateTime = DateTime.Now;

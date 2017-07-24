@@ -8,5 +8,7 @@ namespace JO.Core.Services
         User Login(string name);
         User Register(string name);
         User AddAnimal(int userId, int animalId);
+        User PetAnimal(int userId, int animalId);
+        User FeedAnimal(int userId, int animalId);
     }
 }

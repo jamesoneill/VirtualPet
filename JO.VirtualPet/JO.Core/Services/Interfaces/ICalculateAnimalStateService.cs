@@ -9,5 +9,7 @@ namespace JO.Core.Services.Interfaces
     {
         Animal ReCalculateAnimalState(Animal animal);
         List<Animal> ReCalculateAnimalState(List<Animal> animal);
+        void FeedAnimal(Animal animal);
+        void PetAnimal(Animal animal);
     }
 }

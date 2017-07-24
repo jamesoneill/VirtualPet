@@ -50,6 +50,22 @@ namespace JO.Core.Services
             return user;
         }
 
+        public User FeedAnimal(int userId, int animalId)
+        {
+            var user = _userRepository.Table.Include("Animals")
+                                .Include("Animals.Type")
+                                .Include("Animals.Type.Stats")
+                                .FirstOrDefault(m => m.UserId == userId);
+
+            var animal = user.Animals.FirstOrDefault(m => m.AnimalId == animalId);
+
+            _calculateAnimalStateService.FeedAnimal(animal);
+
+
+
+            return user;
+        }
+
         public User Login(string name)
         {
             var user = _userRepository.Table.Include("Animals")
@@ -64,6 +80,22 @@ namespace JO.Core.Services
             }
 
             throw new Exception("User does not exist");
+        }
+
+        public User PetAnimal(int userId, int animalId)
+        {
+            var user = _userRepository.Table.Include("Animals")
+                                            .Include("Animals.Type")
+                                            .Include("Animals.Type.Stats")
+                                            .FirstOrDefault(m => m.UserId == userId);
+
+            var animal = user.Animals.FirstOrDefault(m => m.AnimalId == animalId);
+
+            _calculateAnimalStateService.PetAnimal(animal);
+
+
+
+            return user;
         }
 
         public User Register(string name)
