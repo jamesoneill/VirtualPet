@@ -49,11 +49,11 @@ namespace JO.Core.Services
                 numberOfTimesToDecreaseHunger = 0;
             }
 
-            animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HappinessDecreaseRate * numberOfTimesToDecreaseHappiness;
+            animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HungerIncreaseRate * numberOfTimesToDecreaseHappiness;
 
-            if (animal.CurrentHunger < animal.Type.Stats.MinHunger)
+            if (animal.CurrentHunger > animal.Type.Stats.MaxHunger)
             {
-                animal.CurrentHunger = animal.Type.Stats.MinHunger;
+                animal.CurrentHunger = animal.Type.Stats.MaxHunger;
             }
 
             animal.LastReCalculation = currentDateTime;
