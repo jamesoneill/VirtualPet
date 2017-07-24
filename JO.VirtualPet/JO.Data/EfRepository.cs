@@ -112,8 +112,6 @@ namespace JO.Data
         {
             get
             {
-                //hack for non existing lazy loading in EF core
-                _context.ExplicitLoading();
                 if (_entities == null)
                 {
                     Type contextType = typeof(VirtualPetContext);

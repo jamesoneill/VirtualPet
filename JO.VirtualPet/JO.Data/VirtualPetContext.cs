@@ -12,15 +12,6 @@ namespace JO.Data
             optionsBuilder.UseSqlite("Filename=./VirtualPet.db");
         }
 
-        public void ExplicitLoading()
-        {
-            Users.Include(m => m.Animals).ThenInclude(m => m.Type).ThenInclude(m => m.Stats);
-
-            Animals.Include(m => m.Type).ThenInclude(m => m.Stats);
-
-            AnimalTypes.Include(m => m.Stats);
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalType> AnimalTypes { get; set; }

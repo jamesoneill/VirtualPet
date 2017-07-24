@@ -4,6 +4,7 @@ using System.Text;
 using JO.Data;
 using System.Linq;
 using JO.Core.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace JO.Core.Services
 {
@@ -28,7 +29,10 @@ namespace JO.Core.Services
                 throw new Exception("Animal does not exist");
             }
 
-            var user = _userRepository.Table.FirstOrDefault(m => m.UserId == userId);
+            var user = _userRepository.Table.Include("Animals")
+                                            .Include("Animals.Type")
+                                            .Include("Animals.Type.Stats")
+                                            .FirstOrDefault(m => m.UserId == userId);
             if(user == null)
             {
                 throw new Exception("User does not exist");
@@ -48,7 +52,10 @@ namespace JO.Core.Services
 
         public User Login(string name)
         {
-            var user = _userRepository.Table.FirstOrDefault(m => m.Name == name);
+            var user = _userRepository.Table.Include("Animals")
+                                            .Include("Animals.Type")
+                                            .Include("Animals.Type.Stats")
+                                            .FirstOrDefault(m => m.Name == name);
 
             if (user != null)
             {
@@ -61,13 +68,19 @@ namespace JO.Core.Services
 
         public User Register(string name)
         {
-            var user = _userRepository.Table.FirstOrDefault(m => m.Name == name);
+            var user = _userRepository.Table.Include("Animals")
+                                            .Include("Animals.Type")
+                                            .Include("Animals.Type.Stats")
+                                            .FirstOrDefault(m => m.Name == name);
 
             if(user == null)
             {
                 var userToInsert = new User() { Name = name };
                 _userRepository.Insert(userToInsert);
-                user = _userRepository.GetById(userToInsert.UserId);
+                user = _userRepository.Table.Include("Animals")
+                                            .Include("Animals.Type")
+                                            .Include("Animals.Type.Stats")
+                                            .FirstOrDefault(m => m.UserId == user.UserId);
                 user.Animals = _calculateAnimalStateService.ReCalculateAnimalState(user.Animals.ToList());
                 return user;
             }

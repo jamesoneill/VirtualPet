@@ -12,7 +12,7 @@ namespace JO.Core.Services
 
         public CalculateAnimalStateService(IRepository<Animal> animalRepository)
         {
-            animalRepository = _animalRepository;
+            _animalRepository = animalRepository;
         }
 
         public Animal ReCalculateAnimalState(Animal animal)
@@ -21,6 +21,7 @@ namespace JO.Core.Services
 
             var timePassed = currentDateTime - animal.LastReCalculation;
             double numberOfTimesToDecreaseHappiness;
+
             if (timePassed.TotalMinutes > 0)
             {
                 numberOfTimesToDecreaseHappiness = timePassed.TotalMinutes / animal.Type.Stats.HappinessTickRate.TotalMinutes;
@@ -32,7 +33,13 @@ namespace JO.Core.Services
 
             animal.CurrentHappiness = animal.CurrentHappiness + animal.Type.Stats.HappinessDecreaseRate * numberOfTimesToDecreaseHappiness;
 
+            if(animal.CurrentHappiness < animal.Type.Stats.MinHappiness)
+            {
+                animal.CurrentHappiness = animal.Type.Stats.MinHappiness;
+            }
+
             double numberOfTimesToDecreaseHunger;
+
             if (timePassed.TotalMinutes > 0)
             {
                 numberOfTimesToDecreaseHunger = timePassed.TotalMinutes / animal.Type.Stats.HungerTickRate.TotalMinutes;
@@ -43,6 +50,13 @@ namespace JO.Core.Services
             }
 
             animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HappinessDecreaseRate * numberOfTimesToDecreaseHappiness;
+
+            if (animal.CurrentHunger < animal.Type.Stats.MinHunger)
+            {
+                animal.CurrentHunger = animal.Type.Stats.MinHunger;
+            }
+
+            animal.LastReCalculation = currentDateTime;
 
             _animalRepository.Update(animal);
 
