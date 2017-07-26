@@ -8,7 +8,7 @@ namespace JO.Data
     {
         public int? AnimalStatsId { get; set; }
         public double HungerIncreaseRate { get; set; } = 15;
-        public double HungerDecreaseRate { get; set; } = 10;
+        public double HungerDecreaseRate { get; set; } = -10;
         public double HappinessIncreaseRate { get; set; } = 15;
         public double HappinessDecreaseRate { get; set; } = -10;
         public TimeSpan HungerTickRate { get; set; } = TimeSpan.FromMinutes(60);

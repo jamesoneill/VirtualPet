@@ -8,8 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170517-02" />
+    <PackageReference Include="Moq" Version="4.7.99" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.17" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JO.VirtualPet\JO.Core\JO.Core.csproj" />
+    <ProjectReference Include="..\JO.VirtualPet\JO.Data\JO.Data.csproj" />
   </ItemGroup>
 
 </Project>
