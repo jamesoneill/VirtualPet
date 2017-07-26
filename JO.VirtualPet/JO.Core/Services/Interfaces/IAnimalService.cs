@@ -7,6 +7,14 @@ namespace JO.Core.Services.Interfaces
 {
     public interface IAnimalService
     {
-        Animal Create(string name, int typeId);
+        Animal CreateAnimal(string name, int typeId);
+        AnimalType CreateAnimalType(AnimalType animalType);
+        AnimalStats CreateAnimalStats(AnimalStats animalStats);
+        Animal PetAnimal(int animalId);
+        Animal FeedAnimal(int animalId);
+        List<AnimalStats> GetAllAnimalStats();
+        AnimalStats GetAnimalStats(int id);
+        List<AnimalType> GetAllAnimalTypes();
+        AnimalType GetAnimalType(int id);
     }
 }

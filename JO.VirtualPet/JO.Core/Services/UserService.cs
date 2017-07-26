@@ -14,7 +14,9 @@ namespace JO.Core.Services
         private readonly IRepository<Animal> _animalRepository;
         private readonly ICalculateAnimalStateService _calculateAnimalStateService;
 
-        public UserService(IRepository<User> userRepository, IRepository<Animal> animalRepository, ICalculateAnimalStateService calculateAnimalStateService)
+        public UserService(IRepository<User> userRepository,
+                           IRepository<Animal> animalRepository,
+                           ICalculateAnimalStateService calculateAnimalStateService)
         {
             _userRepository = userRepository;
             _animalRepository = animalRepository;
@@ -50,22 +52,6 @@ namespace JO.Core.Services
             return user;
         }
 
-        public User FeedAnimal(int userId, int animalId)
-        {
-            var user = _userRepository.Table.Include("Animals")
-                                .Include("Animals.Type")
-                                .Include("Animals.Type.Stats")
-                                .FirstOrDefault(m => m.UserId == userId);
-
-            var animal = user.Animals.FirstOrDefault(m => m.AnimalId == animalId);
-
-            _calculateAnimalStateService.FeedAnimal(animal);
-
-
-
-            return user;
-        }
-
         public User Login(string name)
         {
             var user = _userRepository.Table.Include("Animals")
@@ -82,22 +68,6 @@ namespace JO.Core.Services
             throw new Exception("User does not exist");
         }
 
-        public User PetAnimal(int userId, int animalId)
-        {
-            var user = _userRepository.Table.Include("Animals")
-                                            .Include("Animals.Type")
-                                            .Include("Animals.Type.Stats")
-                                            .FirstOrDefault(m => m.UserId == userId);
-
-            var animal = user.Animals.FirstOrDefault(m => m.AnimalId == animalId);
-
-            _calculateAnimalStateService.PetAnimal(animal);
-
-
-
-            return user;
-        }
-
         public User Register(string name)
         {
             var user = _userRepository.Table.Include("Animals")
@@ -108,11 +78,14 @@ namespace JO.Core.Services
             if(user == null)
             {
                 var userToInsert = new User() { Name = name };
+
                 _userRepository.Insert(userToInsert);
+
                 user = _userRepository.Table.Include("Animals")
                                             .Include("Animals.Type")
                                             .Include("Animals.Type.Stats")
                                             .FirstOrDefault(m => m.UserId == user.UserId);
+
                 user.Animals = _calculateAnimalStateService.ReCalculateAnimalState(user.Animals.ToList());
                 return user;
             }

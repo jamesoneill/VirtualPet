@@ -46,7 +46,7 @@ namespace JO.VirtualPet.Controllers
 
             try
             {
-                var animal = _animalServcie.Create(name, typeId.Value);
+                var animal = _animalServcie.CreateAnimal(name, typeId.Value);
                 return new AnimalResponse()
                 {
                     Animal = animal
@@ -65,5 +65,72 @@ namespace JO.VirtualPet.Controllers
             }
         }
 
+        [HttpPut("PetAnimal/{animalId}")]
+        public AnimalResponse PetAnimal(int? animalId)
+        {
+            if (animalId == null)
+            {
+                return new AnimalResponse()
+                {
+                    IsSuccess = false,
+                    Errors = { "animalId parameter is expected" }
+
+                };
+            }
+
+            try
+            {
+                var animal = _animalServcie.PetAnimal(animalId.Value);
+                return new AnimalResponse()
+                {
+                    Animal = animal
+                };
+            }
+            catch (Exception ex)
+            {
+                var response = new AnimalResponse()
+                {
+                    IsSuccess = false,
+                };
+
+                response.Errors = GetErrors(ex, response.Errors);
+
+                return response;
+            }
+        }
+
+        [HttpPut("FeedAnimal/{userId}")]
+        public AnimalResponse FeedAnimal(int? animalId)
+        {
+            if (animalId == null)
+            {
+                return new AnimalResponse()
+                {
+                    IsSuccess = false,
+                    Errors = { "animalId parameter is expected" }
+
+                };
+            }
+
+            try
+            {
+                var animal = _animalServcie.FeedAnimal(animalId.Value);
+                return new AnimalResponse()
+                {
+                    Animal = animal
+                };
+            }
+            catch (Exception ex)
+            {
+                var response = new AnimalResponse()
+                {
+                    IsSuccess = false,
+                };
+
+                response.Errors = GetErrors(ex, response.Errors);
+
+                return response;
+            }
+        }
     }
 }

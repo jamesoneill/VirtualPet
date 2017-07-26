@@ -15,7 +15,7 @@ namespace JO.Core.Services
             _animalRepository = animalRepository;
         }
 
-        public void FeedAnimal(Animal animal)
+        public Animal FeedAnimal(Animal animal)
         {
             animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HungerDecreaseRate;
 
@@ -24,10 +24,10 @@ namespace JO.Core.Services
                 animal.CurrentHunger = animal.Type.Stats.MinHunger;
             }
 
-            ReCalculateAnimalState(animal);
+            return ReCalculateAnimalState(animal);
         }
 
-        public void PetAnimal(Animal animal)
+        public Animal PetAnimal(Animal animal)
         {
             animal.CurrentHappiness = animal.CurrentHappiness + animal.Type.Stats.HappinessIncreaseRate;
 
@@ -36,7 +36,7 @@ namespace JO.Core.Services
                 animal.CurrentHappiness = animal.Type.Stats.MaxHappiness;
             }
 
-            ReCalculateAnimalState(animal);
+            return ReCalculateAnimalState(animal);
         }
 
         public Animal ReCalculateAnimalState(Animal animal)

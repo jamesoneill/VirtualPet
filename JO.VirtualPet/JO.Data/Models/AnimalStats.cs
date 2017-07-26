@@ -6,7 +6,7 @@ namespace JO.Data
 {
     public class AnimalStats : BaseEntity
     {
-        public int AnimalStatsId { get; set; }
+        public int? AnimalStatsId { get; set; }
         public double HungerIncreaseRate { get; set; } = 15;
         public double HungerDecreaseRate { get; set; } = 10;
         public double HappinessIncreaseRate { get; set; } = 15;
