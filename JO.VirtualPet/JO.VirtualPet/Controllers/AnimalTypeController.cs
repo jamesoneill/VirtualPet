@@ -77,7 +77,7 @@ namespace JO.VirtualPet.Controllers
 
         // POST api/values
         [HttpPost("Create")]
-        public AnimalTypeResponse Create([FromBody]AnimalType animalType,[FromBody]int? animalStatsId)
+        public AnimalTypeResponse Create([FromBody]AnimalType animalType)
         {
             if (animalType == null)
             {
@@ -89,12 +89,12 @@ namespace JO.VirtualPet.Controllers
                 };
             }
 
-            if (animalType.AnimalTypeId == null)
+            if (animalType.AnimalTypeId != null)
             {
                 return new AnimalTypeResponse()
                 {
                     IsSuccess = false,
-                    Errors = { "animalStatsId must be null" }
+                    Errors = { "animalTypeId must be null" }
 
                 };
             }

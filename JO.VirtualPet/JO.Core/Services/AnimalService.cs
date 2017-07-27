@@ -32,23 +32,23 @@ namespace JO.Core.Services
                 Name = name,
             };
 
-            var animalType = _animalTypeRepository.GetById(typeId);
+            var animalType = _animalTypeRepository.Table.FirstOrDefault(m => m.AnimalTypeId == typeId);
             if(animalType == null)
             {
-                throw new Exception("Animal type not found");
+                throw new Exception("Animal type not found.");
             }
             
             animal.Type = animalType;
 
             _animalRepository.Insert(animal);
 
-            _animalRepository.Table.Include("Type")
-                                   .Include("Type.Stats")
-                                   .FirstOrDefault(m => m.AnimalId == animal.AnimalId);
+            animal = _animalRepository.Table.Include("Type")
+                                      .Include("Type.Stats")
+                                      .FirstOrDefault(m => m.AnimalId == animal.AnimalId);
 
             _calculateAnimalStateService.ReCalculateAnimalState(animal);
 
-            return _animalRepository.GetById(animal.AnimalId);
+            return animal;
         }
 
         public Animal PetAnimal(int animalId)
@@ -57,6 +57,10 @@ namespace JO.Core.Services
                                                 .Include("Type.Stats")
                                                 .FirstOrDefault(m => m.AnimalId == animalId);
 
+            if (animal == null)
+            {
+                throw new Exception("animal not found.");
+            }
 
             _calculateAnimalStateService.PetAnimal(animal);
 
@@ -69,6 +73,11 @@ namespace JO.Core.Services
                                                 .Include("Type.Stats")
                                                 .FirstOrDefault(m => m.AnimalId == animalId);
 
+            if(animal == null)
+            {
+                throw new Exception("animal not found.");
+            }
+
             _calculateAnimalStateService.FeedAnimal(animal);
 
             return animal;
@@ -76,6 +85,20 @@ namespace JO.Core.Services
 
         public AnimalType CreateAnimalType(AnimalType animalType)
         {
+            if(animalType.AnimalStatId == null)
+            {
+                throw new Exception("must have an animalStatsId.");
+            }
+
+            var animalStats = _animalStatsRepository.Table.FirstOrDefault(m => m.AnimalStatsId == animalType.AnimalStatId);
+
+            if(animalStats == null)
+            {
+                throw new Exception("Animal Stats not found, try creating the stats first.");
+            }
+
+            animalType.Stats = animalStats;
+
             _animalTypeRepository.Insert(animalType);
 
             return _animalTypeRepository.Table.Include("Stats")
@@ -86,7 +109,7 @@ namespace JO.Core.Services
         {
             _animalStatsRepository.Insert(animalStats);
 
-            return _animalStatsRepository.GetById(animalStats.AnimalStatsId);
+            return _animalStatsRepository.Table.FirstOrDefault(m => m.AnimalStatsId == animalStats.AnimalStatsId);
         }
 
         public List<AnimalStats> GetAllAnimalStats()
@@ -96,12 +119,12 @@ namespace JO.Core.Services
 
         public AnimalStats GetAnimalStats(int id)
         {
-            return _animalStatsRepository.GetById(id);
+            return _animalStatsRepository.Table.FirstOrDefault(m => m.AnimalStatsId == id);
         }
 
         public AnimalType GetAnimalType(int id)
         {
-            return _animalTypeRepository.GetById(id);
+            return _animalTypeRepository.Table.Include("Stats").FirstOrDefault(m => m.AnimalTypeId == id);
         }
 
         public List<AnimalType> GetAllAnimalTypes()

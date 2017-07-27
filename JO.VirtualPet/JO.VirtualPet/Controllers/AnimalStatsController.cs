@@ -89,7 +89,7 @@ namespace JO.VirtualPet.Controllers
                 };
             }
 
-            if (animalStats.AnimalStatsId == null)
+            if (animalStats.AnimalStatsId != null)
             {
                 return new AnimalStatsReponse()
                 {
