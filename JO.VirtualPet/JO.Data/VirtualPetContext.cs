@@ -9,6 +9,7 @@ namespace JO.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //This is a temp solution you would need to use some thing Scalable and resiliant
             optionsBuilder.UseSqlite("Filename=./VirtualPet.db");
         }
 

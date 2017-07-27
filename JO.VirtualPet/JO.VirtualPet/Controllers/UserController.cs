@@ -1,11 +1,7 @@
 ﻿using JO.Core.Services;
-using JO.Data;
 using JO.VirtualPet.Response;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace JO.VirtualPet.Controllers
 {
