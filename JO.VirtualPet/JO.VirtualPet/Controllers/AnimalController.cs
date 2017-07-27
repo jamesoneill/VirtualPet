@@ -95,7 +95,7 @@ namespace JO.VirtualPet.Controllers
             }
         }
 
-        [HttpPut("FeedAnimal/{userId}")]
+        [HttpPut("FeedAnimal/{animalId}")]
         public AnimalResponse FeedAnimal(int? animalId)
         {
             if (animalId == null)
