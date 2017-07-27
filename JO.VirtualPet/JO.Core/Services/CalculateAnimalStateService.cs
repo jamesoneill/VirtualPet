@@ -44,6 +44,41 @@ namespace JO.Core.Services
             var currentDateTime = DateTime.Now;
 
             var timePassed = currentDateTime - animal.LastReCalculation;
+
+            ReCaluculateAnimalHappiness(animal, timePassed);
+
+            ReCalculateAnimalHunger(animal, timePassed);
+
+            animal.LastReCalculation = currentDateTime;
+
+            _animalRepository.Update(animal);
+
+            return animal;
+        }
+
+        private void ReCalculateAnimalHunger(Animal animal, TimeSpan timePassed)
+        {
+            double numberOfTimesToDecreaseHunger;
+
+            if (timePassed.TotalMinutes > 0)
+            {
+                numberOfTimesToDecreaseHunger = timePassed.TotalMinutes / animal.Type.Stats.HungerTickRate.TotalMinutes;
+            }
+            else
+            {
+                numberOfTimesToDecreaseHunger = 0;
+            }
+
+            animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HungerIncreaseRate * numberOfTimesToDecreaseHunger;
+
+            if (animal.CurrentHunger > animal.Type.Stats.MaxHunger)
+            {
+                animal.CurrentHunger = animal.Type.Stats.MaxHunger;
+            }
+        }
+
+        private void ReCaluculateAnimalHappiness(Animal animal, TimeSpan timePassed)
+        {
             double numberOfTimesToDecreaseHappiness;
 
             if (timePassed.TotalMinutes > 0)
@@ -57,34 +92,10 @@ namespace JO.Core.Services
 
             animal.CurrentHappiness = animal.CurrentHappiness + animal.Type.Stats.HappinessDecreaseRate * numberOfTimesToDecreaseHappiness;
 
-            if(animal.CurrentHappiness < animal.Type.Stats.MinHappiness)
+            if (animal.CurrentHappiness < animal.Type.Stats.MinHappiness)
             {
                 animal.CurrentHappiness = animal.Type.Stats.MinHappiness;
             }
-
-            double numberOfTimesToDecreaseHunger;
-
-            if (timePassed.TotalMinutes > 0)
-            {
-                numberOfTimesToDecreaseHunger = timePassed.TotalMinutes / animal.Type.Stats.HungerTickRate.TotalMinutes;
-            }
-            else
-            {
-                numberOfTimesToDecreaseHunger = 0;
-            }
-
-            animal.CurrentHunger = animal.CurrentHunger + animal.Type.Stats.HungerIncreaseRate * numberOfTimesToDecreaseHappiness;
-
-            if (animal.CurrentHunger > animal.Type.Stats.MaxHunger)
-            {
-                animal.CurrentHunger = animal.Type.Stats.MaxHunger;
-            }
-
-            animal.LastReCalculation = currentDateTime;
-
-            _animalRepository.Update(animal);
-
-            return animal;
         }
 
         public List<Animal> ReCalculateAnimalState(List<Animal> animals)
